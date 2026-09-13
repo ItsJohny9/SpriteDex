@@ -156,6 +156,7 @@ body {
     align-items: center;
     z-index: 5000;
     animation: fadeIn 0.3s ease;
+    overflow-y: auto;
 }
 
 .modal.show {
@@ -168,11 +169,12 @@ body {
     border-radius: 15px;
     padding: 40px;
     width: 90%;
-    max-width: 400px;
+    max-width: 500px;
     position: relative;
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     animation: slideDown 0.3s ease;
+    margin: auto;
 }
 
 .modal-close {
@@ -195,6 +197,87 @@ body {
     margin-bottom: 25px;
     text-align: center;
     font-size: 1.8rem;
+}
+
+/* Login Container */
+.login-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.login-form-section {
+    flex: 1;
+}
+
+.accounts-section {
+    flex: 1;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 20px;
+}
+
+.accounts-section h3 {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#accountsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.account-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.account-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.account-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.account-email {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    word-break: break-all;
+    flex: 1;
+}
+
+.account-remove {
+    background: rgba(255, 107, 107, 0.3);
+    border: 1px solid #ff6b6b;
+    color: #ff8787;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 8px;
+    padding: 0;
+}
+
+.account-remove:hover {
+    background: rgba(255, 107, 107, 0.5);
+    transform: rotate(90deg);
 }
 
 /* Form Styles */
@@ -403,6 +486,77 @@ body {
     transform: scale(0.98);
 }
 
+/* Main Menu Buttons */
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    animation: fadeIn 1s ease-out 0.6s both;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.menu-btn {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: 2px solid white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: white;
+}
+
+.menu-btn:hover {
+    transform: translateY(-3px);
+}
+
+.menu-btn:active {
+    transform: translateY(-1px);
+}
+
+.menu-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.menu-btn-primary:hover {
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.menu-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+.menu-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.menu-btn-exit {
+    background: rgba(255, 107, 107, 0.2);
+    border-color: #ff6b6b;
+    color: #ff8787;
+}
+
+.menu-btn-exit:hover {
+    background: rgba(255, 107, 107, 0.3);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.btn-icon {
+    font-size: 1.3rem;
+}
+
 /* Animations */
 @keyframes slideDown {
     from {
@@ -476,6 +630,7 @@ body {
     .modal-content {
         padding: 30px 25px;
         width: 95%;
+        max-width: 95%;
     }
 
     .modal-content h2 {
@@ -485,5 +640,35 @@ body {
     .form-group input {
         padding: 10px 12px;
         font-size: 16px;
+    }
+
+    .menu-btn {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+        gap: 8px;
+    }
+
+    .btn-icon {
+        font-size: 1.1rem;
+    }
+
+    .menu-buttons {
+        max-width: 90%;
+    }
+
+    .login-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .accounts-section {
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        padding-left: 0;
+        padding-top: 15px;
+    }
+
+    #accountsList {
+        max-height: 200px;
     }
 }
