@@ -140,3 +140,27 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     alert('✅ Welcome back to SpriteDex, ' + email + '!');
     closeLogin();
 });
+
+// Navigation Functions
+function goToMainMenu() {
+    window.location.href = 'main-menu.html';
+}
+
+function goHome() {
+    window.location.href = 'index.html';
+}
+
+function startGame() {
+    alert('🎮 Starting a new game...');
+    // Add game start logic here
+}
+
+function continueGame() {
+    alert('▶️ Continuing your game...');
+    // Add continue game logic here
+}
+
+function goToSettings() {
+    alert('⚙️ Opening game settings...');
+    // Add settings logic here
+}
