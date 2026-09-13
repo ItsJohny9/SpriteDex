@@ -120,6 +120,13 @@ if (document.getElementById('signupForm')) {
             return;
         }
         
+        // Check if account already exists
+        let accounts = JSON.parse(localStorage.getItem('spritedexAccounts')) || [];
+        if (accounts.some(acc => acc.email === email)) {
+            alert('❌ This email is already registered!');
+            return;
+        }
+        
         // Save account and set as logged in
         saveAccount(email, password);
         setCurrentUser(email);
@@ -149,8 +156,21 @@ if (document.getElementById('loginForm')) {
             return;
         }
         
-        // Save account and set as logged in
-        saveAccount(email, password);
+        // Check if account exists and password is correct
+        let accounts = JSON.parse(localStorage.getItem('spritedexAccounts')) || [];
+        const account = accounts.find(acc => acc.email === email);
+        
+        if (!account) {
+            alert('❌ Account not found. Please check your email or sign up.');
+            return;
+        }
+        
+        if (account.password !== password) {
+            alert('❌ Incorrect password!');
+            return;
+        }
+        
+        // Password is correct, login
         setCurrentUser(email);
         alert('✅ Welcome back to SpriteDex, ' + email + '!');
         closeLogin();
@@ -162,12 +182,15 @@ if (document.getElementById('loginForm')) {
 function saveAccount(email, password) {
     let accounts = JSON.parse(localStorage.getItem('spritedexAccounts')) || [];
     
-    // Check if account already exists
-    const exists = accounts.some(acc => acc.email === email);
-    if (!exists) {
+    // Check if account already exists and update it
+    const existingIndex = accounts.findIndex(acc => acc.email === email);
+    if (existingIndex !== -1) {
+        accounts[existingIndex] = { email: email, password: password };
+    } else {
         accounts.push({ email: email, password: password });
-        localStorage.setItem('spritedexAccounts', JSON.stringify(accounts));
     }
+    
+    localStorage.setItem('spritedexAccounts', JSON.stringify(accounts));
 }
 
 function setCurrentUser(email) {
