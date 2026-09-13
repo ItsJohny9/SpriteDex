@@ -52,18 +52,26 @@
         <div class="modal-content">
             <span class="modal-close" onclick="closeLogin()">✕</span>
             <h2>Log In</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" required placeholder="Enter your email">
+            <div class="login-container">
+                <div class="login-form-section">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required placeholder="Enter your password">
+                        </div>
+                        <button type="submit" class="form-btn">Log In</button>
+                    </form>
+                    <p class="form-footer">Don't have an account? <a href="#" onclick="switchToSignUp()">Sign Up</a></p>
                 </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" required placeholder="Enter your password">
+                <div class="accounts-section">
+                    <h3>Saved Accounts</h3>
+                    <div id="accountsList"></div>
                 </div>
-                <button type="submit" class="form-btn">Log In</button>
-            </form>
-            <p class="form-footer">Don't have an account? <a href="#" onclick="switchToSignUp()">Sign Up</a></p>
+            </div>
         </div>
     </div>
 
@@ -88,7 +96,7 @@
             <p class="subtitle">Discover. Collect. Master.</p>
             
             <div class="button-group">
-                <button class="btn btn-primary">Play</button>
+                <button class="btn btn-primary" onclick="goToMainMenu()">Play</button>
                 <button class="btn btn-secondary">Collection</button>
             </div>
         </div>
