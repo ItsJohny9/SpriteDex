@@ -22,7 +22,7 @@ function handleMenuClick(option) {
             alert('❓ Help & Support coming soon!');
             break;
         case 'logout':
-            alert('👋 You have been logged out.');
+            logout();
             break;
         default:
             break;
@@ -50,17 +50,22 @@ function openSignUp() {
 
 function closeSignUp() {
     document.getElementById('signupModal').classList.remove('show');
-    document.getElementById('signupForm').reset();
+    if (document.getElementById('signupForm')) {
+        document.getElementById('signupForm').reset();
+    }
 }
 
 // Log In Modal Functions
 function openLogin() {
     document.getElementById('loginModal').classList.add('show');
+    loadSavedAccounts();
 }
 
 function closeLogin() {
     document.getElementById('loginModal').classList.remove('show');
-    document.getElementById('loginForm').reset();
+    if (document.getElementById('loginForm')) {
+        document.getElementById('loginForm').reset();
+    }
 }
 
 // Switch from Sign Up to Log In
@@ -89,60 +94,159 @@ window.addEventListener('click', function(event) {
 });
 
 // Handle Sign Up Form Submit
-document.getElementById('signupForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('signup-email').value;
-    const password = document.getElementById('signup-password').value;
-    const confirm = document.getElementById('signup-confirm').value;
-    
-    // Validate email
-    if (!email.includes('@')) {
-        alert('❌ Please enter a valid email address');
-        return;
-    }
-    
-    // Validate password length
-    if (password.length < 6) {
-        alert('❌ Password must be at least 6 characters');
-        return;
-    }
-    
-    // Check if passwords match
-    if (password !== confirm) {
-        alert('❌ Passwords do not match');
-        return;
-    }
-    
-    alert('✅ Account created successfully for: ' + email);
-    closeSignUp();
-});
+if (document.getElementById('signupForm')) {
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('signup-email').value;
+        const password = document.getElementById('signup-password').value;
+        const confirm = document.getElementById('signup-confirm').value;
+        
+        // Validate email
+        if (!email.includes('@')) {
+            alert('❌ Please enter a valid email address');
+            return;
+        }
+        
+        // Validate password length
+        if (password.length < 6) {
+            alert('❌ Password must be at least 6 characters');
+            return;
+        }
+        
+        // Check if passwords match
+        if (password !== confirm) {
+            alert('❌ Passwords do not match');
+            return;
+        }
+        
+        // Save account and set as logged in
+        saveAccount(email, password);
+        setCurrentUser(email);
+        alert('✅ Account created successfully for: ' + email);
+        closeSignUp();
+        redirectToMainMenu();
+    });
+}
 
 // Handle Log In Form Submit
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+if (document.getElementById('loginForm')) {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        
+        // Validate email
+        if (!email.includes('@')) {
+            alert('❌ Please enter a valid email address');
+            return;
+        }
+        
+        // Validate password
+        if (password.length < 6) {
+            alert('❌ Password must be at least 6 characters');
+            return;
+        }
+        
+        // Save account and set as logged in
+        saveAccount(email, password);
+        setCurrentUser(email);
+        alert('✅ Welcome back to SpriteDex, ' + email + '!');
+        closeLogin();
+        redirectToMainMenu();
+    });
+}
+
+// Account Management Functions
+function saveAccount(email, password) {
+    let accounts = JSON.parse(localStorage.getItem('spritedexAccounts')) || [];
     
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+    // Check if account already exists
+    const exists = accounts.some(acc => acc.email === email);
+    if (!exists) {
+        accounts.push({ email: email, password: password });
+        localStorage.setItem('spritedexAccounts', JSON.stringify(accounts));
+    }
+}
+
+function setCurrentUser(email) {
+    localStorage.setItem('currentUser', email);
+}
+
+function getCurrentUser() {
+    return localStorage.getItem('currentUser');
+}
+
+function isUserLoggedIn() {
+    return getCurrentUser() !== null;
+}
+
+function logout() {
+    localStorage.removeItem('currentUser');
+    alert('👋 You have been logged out.');
+    window.location.href = 'index.html';
+}
+
+function loadSavedAccounts() {
+    const accounts = JSON.parse(localStorage.getItem('spritedexAccounts')) || [];
+    const accountsList = document.getElementById('accountsList');
     
-    // Validate email
-    if (!email.includes('@')) {
-        alert('❌ Please enter a valid email address');
+    if (!accountsList) return;
+    
+    accountsList.innerHTML = '';
+    
+    if (accounts.length === 0) {
+        accountsList.innerHTML = '<p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem;">No saved accounts</p>';
         return;
     }
     
-    // Validate password
-    if (password.length < 6) {
-        alert('❌ Password must be at least 6 characters');
-        return;
-    }
-    
+    accounts.forEach(account => {
+        const accountItem = document.createElement('div');
+        accountItem.className = 'account-item';
+        accountItem.innerHTML = `
+            <div class="account-info">
+                <span class="account-email">${account.email}</span>
+                <button class="account-remove" onclick="removeAccount('${account.email}')">✕</button>
+            </div>
+        `;
+        accountItem.style.cursor = 'pointer';
+        accountItem.onclick = (e) => {
+            if (!e.target.classList.contains('account-remove')) {
+                loginWithAccount(account.email, account.password);
+            }
+        };
+        accountsList.appendChild(accountItem);
+    });
+}
+
+function loginWithAccount(email, password) {
+    setCurrentUser(email);
     alert('✅ Welcome back to SpriteDex, ' + email + '!');
     closeLogin();
-});
+    redirectToMainMenu();
+}
+
+function removeAccount(email) {
+    if (confirm(`Are you sure you want to remove ${email}?`)) {
+        let accounts = JSON.parse(localStorage.getItem('spritedexAccounts')) || [];
+        accounts = accounts.filter(acc => acc.email !== email);
+        localStorage.setItem('spritedexAccounts', JSON.stringify(accounts));
+        loadSavedAccounts();
+        alert('✅ Account removed successfully');
+    }
+}
 
 // Navigation Functions
 function goToMainMenu() {
+    if (!isUserLoggedIn()) {
+        openLogin();
+    } else {
+        redirectToMainMenu();
+    }
+}
+
+function redirectToMainMenu() {
     window.location.href = 'main-menu.html';
 }
 
@@ -164,3 +268,12 @@ function goToSettings() {
     alert('⚙️ Opening game settings...');
     // Add settings logic here
 }
+
+// Check if user is logged in on page load
+window.addEventListener('DOMContentLoaded', function() {
+    if (document.body.innerHTML.includes('main-menu')) {
+        if (!isUserLoggedIn()) {
+            window.location.href = 'index.html';
+        }
+    }
+});
