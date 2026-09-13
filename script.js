@@ -37,7 +37,8 @@ document.addEventListener('click', function(event) {
     const menu = document.getElementById('settingsMenu');
     const settingsIcon = document.querySelector('.settings-icon');
     
-    if (!menu.contains(event.target) && !settingsIcon.contains(event.target)) {
+    // Only close if clicking outside menu and icon
+    if (menu && !menu.contains(event.target) && !settingsIcon.contains(event.target)) {
         menu.classList.remove('active');
     }
 });
