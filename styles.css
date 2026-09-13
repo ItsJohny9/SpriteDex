@@ -25,7 +25,7 @@ body {
 
 /* Settings Gear Icon */
 .settings-icon {
-    position: absolute;
+    position: fixed;
     top: 30px;
     right: 30px;
     width: 50px;
@@ -56,7 +56,7 @@ body {
 
 /* Settings Menu */
 .settings-menu {
-    position: absolute;
+    position: fixed;
     top: 90px;
     right: 30px;
     width: 250px;
@@ -69,7 +69,7 @@ body {
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.3s ease;
-    z-index: 200;
+    z-index: 9999;
 }
 
 .settings-menu.active {
@@ -145,7 +145,7 @@ body {
 
 /* Auth Buttons */
 .auth-buttons {
-    position: absolute;
+    position: fixed;
     top: 30px;
     left: 30px;
     display: flex;
