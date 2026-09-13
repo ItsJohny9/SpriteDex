@@ -23,6 +23,50 @@
         </ul>
     </div>
 
+    <!-- Sign Up Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeSignUp()">✕</span>
+            <h2>Sign Up!</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm">Confirm Password</label>
+                    <input type="password" id="signup-confirm" required placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="form-btn">Create Account</button>
+            </form>
+            <p class="form-footer">Already have an account? <a href="#" onclick="switchToLogin()">Log In</a></p>
+        </div>
+    </div>
+
+    <!-- Log In Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeLogin()">✕</span>
+            <h2>Log In</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter your password">
+                </div>
+                <button type="submit" class="form-btn">Log In</button>
+            </form>
+            <p class="form-footer">Don't have an account? <a href="#" onclick="switchToSignUp()">Sign Up</a></p>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Settings Gear Icon -->
         <div class="settings-icon" onclick="toggleMenu()">
@@ -34,8 +78,8 @@
 
         <!-- Auth Buttons (Top Left) -->
         <div class="auth-buttons">
-            <button class="auth-btn auth-signup">Sign Up!</button>
-            <button class="auth-btn auth-login">Log In</button>
+            <button class="auth-btn auth-signup" onclick="openSignUp()">Sign Up!</button>
+            <button class="auth-btn auth-login" onclick="openLogin()">Log In</button>
         </div>
 
         <!-- Main Content -->
